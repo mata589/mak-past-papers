@@ -31,7 +31,7 @@ class SideMenu extends StatelessWidget {
           ),
           DrawerListTile(
             icon: TernavIcons.lightOutline.menu,
-            title: "Course",
+            title: "College",
             onTap: () {},
           ),
           DrawerListTile(

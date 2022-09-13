@@ -7,6 +7,7 @@ class PlaningHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String = DateTime.now().toString();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -32,7 +33,7 @@ class PlaningHeader extends StatelessWidget {
               width: 5,
             ),
             Text(
-              "18 July 2022",
+              "",
               style: TextStyle(
                   fontSize: 16,
                   color: kDarkBlue,

@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mak_past_papers/data/data.dart';
 import 'package:mak_past_papers/data/papers.dart';
+import 'package:mak_past_papers/model/College_model.dart';
 
-class CourseUnits extends StatefulWidget {
+class courseunits extends StatefulWidget {
+  const courseunits({required this.collegename});
+  final String collegename;
   @override
-  _CourseUnitsState createState() => _CourseUnitsState();
+  _courseunitsState createState() => _courseunitsState();
 }
 
-class _CourseUnitsState extends State<CourseUnits>
+class _courseunitsState extends State<courseunits>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -24,9 +28,9 @@ class _CourseUnitsState extends State<CourseUnits>
 
     _animation = Tween<double>(begin: 0, end: 1)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
-          ..addListener(() {
-            setState(() {});
-          });
+      ..addListener(() {
+        setState(() {});
+      });
 
     _animation2 = Tween<double>(begin: 0, end: -30)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
@@ -49,7 +53,7 @@ class _CourseUnitsState extends State<CourseUnits>
         backgroundColor: Color(0xffF57752),
         brightness: Brightness.dark,
         elevation: 0,
-        title: Text('Course Units'),
+        title: Text('College Units'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -71,28 +75,11 @@ class _CourseUnitsState extends State<CourseUnits>
       ),
       body: Stack(
         children: [
-          ListView(
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              SizedBox(height: _w / 13),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-              cards(),
-            ],
-          ),
+          ListView.builder(
+              itemCount: courses.length,
+              itemBuilder: (context, index) {
+                return Card(courses[index].coursename);
+              }),
 
           // top me rahna
           CustomPaint(
@@ -104,7 +91,7 @@ class _CourseUnitsState extends State<CourseUnits>
     );
   }
 
-  Widget cards() {
+  Widget Card(String name) {
     double _w = MediaQuery.of(context).size.width;
     return Opacity(
       opacity: _animation.value,
@@ -147,20 +134,13 @@ class _CourseUnitsState extends State<CourseUnits>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Example',
-                        textScaleFactor: 1.6,
+                        '${name}',
+                        textScaleFactor: 1.0,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.black.withOpacity(.7),
                         ),
                       ),
-                      Text(
-                        'Example',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black.withOpacity(.8),
-                        ),
-                      )
                     ],
                   ),
                 ),

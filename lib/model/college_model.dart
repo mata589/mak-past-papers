@@ -1,15 +1,15 @@
 import 'dart:ui';
 
-class Course {
-  final String text;
+class college {
+  final String collegename;
   final String lessons;
   final String imageUrl;
   final double percent;
   final String backImage;
   final Color color;
 
-  Course({
-    required this.text,
+  college({
+    required this.collegename,
     required this.lessons,
     required this.imageUrl,
     required this.percent,
