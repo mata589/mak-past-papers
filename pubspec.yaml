@@ -37,6 +37,9 @@ dependencies:
   fl_chart: ^0.55.1
   percent_indicator: ^4.2.2
   ternav_icons: ^1.0.0
+  firebase_core: ^1.22.0
+  firebase_storage: ^10.3.8
+  firebase_storage_web: ^3.3.6
 
 dev_dependencies:
   flutter_test:
