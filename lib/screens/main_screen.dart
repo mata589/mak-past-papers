@@ -1,11 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:mak_past_papers/screens/components/chart_container.dart';
+import 'package:mak_past_papers/widgets/activity_header.dart';
+import 'package:mak_past_papers/widgets/bar_chart.dart';
 
-import 'package:mak_past_papers/widgets/courses_grid.dart';
+import 'package:mak_past_papers/widgets/planing_grid.dart';
+import 'package:mak_past_papers/widgets/statistics_grid.dart';
 
 import '../constant.dart';
-
+import '../widgets/College_grid.dart';
+import '../widgets/planing_header.dart';
 import 'components/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
@@ -70,32 +73,69 @@ class MainScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
+              Text(
+                greetingMessage(),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+
+              const SizedBox(
+                height: 15,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
                   Text(
-                    "Colleges",
+                    "College",
                     style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "View All",
-                    style: TextStyle(color: kDarkBlue),
                   ),
                 ],
               ),
               const SizedBox(
                 height: 10,
               ),
-              const CourseGrid(),
+              CollegeGrid(),
               const SizedBox(
                 height: 20,
               ),
-             
-             
+              // const PlaningHeader(),
+              const SizedBox(
+                height: 15,
+              ),
+              // const PlaningGrid(),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // const Text(
+              //   "Statistics",
+              //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              // ),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // const StatisticsGrid(),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // const ActivityHeader(),
+              // const ChartContainer(chart: BarChartContent())
             ],
           ),
         ),
       ),
     );
+  }
+
+  String greetingMessage() {
+    var timeNow = DateTime.now().hour;
+
+    if (timeNow <= 11.59) {
+      return 'Good Morning';
+    } else if (timeNow > 12 && timeNow <= 16) {
+      return 'Good Afternoon';
+    } else if (timeNow > 16 && timeNow < 20) {
+      return 'Good Evening';
+    } else {
+      return 'Good Night';
+    }
   }
 }
