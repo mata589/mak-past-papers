@@ -40,6 +40,16 @@ dependencies:
   firebase_core: ^1.22.0
   firebase_storage: ^10.3.8
   firebase_storage_web: ^3.3.6
+  file_picker: ^5.0.1
+  http: ^0.13.5
+  flutter_cache_manager: ^3.3.0
+  syncfusion_flutter_pdfviewer: ^20.2.49-beta
+  advance_pdf_viewer: ^2.0.1
+  easy_pdf_viewer: ^1.0.3
+  pdf_viewer_plugin: ^2.0.1
+  native_pdf_view: ^4.2.0
+  
+  
 
 dev_dependencies:
   flutter_test:

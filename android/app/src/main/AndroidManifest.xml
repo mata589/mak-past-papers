@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mak_past_papers">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="mak_past_papers"
         android:name="${applicationName}"

@@ -1,5 +1,13 @@
+import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:mak_past_papers/data/viewpdf.dart';
+
 
 class MyCustomUI extends StatefulWidget {
   @override
@@ -10,11 +18,17 @@ class _MyCustomUIState extends State<MyCustomUI>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late Future<ListResult> futureFiles;
+   
+  
+  
 
+  FilePickerResult? result;
+var storage = FirebaseStorage.instance;
   @override
   void initState() {
     super.initState();
-
+ futureFiles=  FirebaseStorage.instance.ref('COCIS/computer science').listAll();
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
@@ -39,81 +53,74 @@ class _MyCustomUIState extends State<MyCustomUI>
   Widget build(BuildContext context) {
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xffF5F5F5),
-      body: Stack(
-        children: [
-          ListView(
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              searchBar(),
-              SizedBox(height: _w / 20),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-            ],
-          ),
-          settingIcon(),
-        ],
-      ),
-    );
+      //searchBar(),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(120.0), // here the desired height
+          child:SafeArea(child: AppBar(
+             backgroundColor: Color(0xffF5F5F5),
+             automaticallyImplyLeading: false,
+             flexibleSpace:searchBar() ,
+        //   actions: [
+            
+        //   searchBar()
+        
+        // ]
+            // ...
+          ))
+        ),
+      //  AppBar(
+        
+      //    backgroundColor: Color(0xffF5F5F5),
+      //     actions: [
+      //     searchBar()
+        
+      //  ]),
+     
+      body:FutureBuilder<ListResult>(
+        future:futureFiles ,
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            final files = snapshot.data!.items;
+            return ListView.builder(
+              itemCount: files.length,
+               itemBuilder: (context,index){
+               var file = files[index];
+               var url = files[index].getDownloadURL();
+               return ListTile(
+                title: Text(file.name),
+                trailing: Text('2022'),
+                onTap: () {
+                  Navigator.push(
+                        
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>   
+                                viewpdf(pdfurl: url,
+                                  
+                                    )));
+                },
+               );
+               }
+               
+               );
+          }
+          else if(snapshot.hasError){
+                  return const Center(child: Text('error'),);
+                }else{
+                  return const Center(child: CircularProgressIndicator(),);
+                }
+          
+        }
+        
+        ) 
+      
+        );
   }
 
-  Widget settingIcon() {
+  Widget uploadIcon() {
     double _w = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, _w / 10, _w / 20, 0),
+      padding: EdgeInsets.fromLTRB(0, _w / 20, _w / 20, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -135,15 +142,14 @@ class _MyCustomUIState extends State<MyCustomUI>
             child: IconButton(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              tooltip: 'Settings',
-              icon: Icon(Icons.settings,
+              tooltip: 'upload past paper',
+              icon: Icon(Icons.add,
                   size: _w / 17, color: Colors.black.withOpacity(.6)),
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MyFadeRoute(
-                //     route: RouteWhereYouGo(),
-                //   ),
-                // );
+                uploadpaper();
+
+
+                
               },
             ),
           ),
@@ -155,7 +161,7 @@ class _MyCustomUIState extends State<MyCustomUI>
   Widget searchBar() {
     double _w = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.fromLTRB(_w / 20, _w / 25, _w / 20, 0),
+      padding: EdgeInsets.fromLTRB(_w / 20, _w / 25, _w / 20, _w / 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -186,7 +192,7 @@ class _MyCustomUIState extends State<MyCustomUI>
                     fontSize: _w / 22),
                 prefixIcon:
                     Icon(Icons.search, color: Colors.black.withOpacity(.6)),
-                hintText: 'Search anything.....',
+                hintText: 'Search anypaper.....',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none),
@@ -198,8 +204,8 @@ class _MyCustomUIState extends State<MyCustomUI>
           Container(
             width: _w / 1.15,
             child: Text(
-              'Example Text',
-              textScaleFactor: 1.4,
+              'COMPUTER SCIENCE PAST PAPERS',
+              textScaleFactor: 1.1,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.black.withOpacity(.7),
@@ -271,11 +277,7 @@ class _MyCustomUIState extends State<MyCustomUI>
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              // Image.asset(
-              //   image,
-              //   fit: BoxFit.cover,
-              //   width: _w / 2.36,
-              //   height: _w / 2.6),
+             
               Container(
                 height: _w / 6,
                 width: _w / 2.36,
@@ -315,7 +317,35 @@ class _MyCustomUIState extends State<MyCustomUI>
       ),
     );
   }
+  
+  Future<void> uploadpaper() async {
+
+ result = (await FilePicker.platform.pickFiles(withReadStream: true, allowMultiple: true, type: FileType.any));
+String fileName = result!.files.single.name;
+String? pathh = result!.files.single.path;
+savePdf(pathh!, fileName);
+
 }
+
+  Future<void> savePdf(String filepath, String fileName) async {
+    File file = File(filepath);
+    try{
+//final reference = FirebaseStorage.instance.ref('COCIS/computer science/$fileName');
+//final uploadTask = reference.putFile(file);
+//String url =  await (await uploadTask).ref.getDownloadURL();
+UploadTask uploadTask = (await storage.ref('COCIS/computer science/$fileName').putFile(file)) as UploadTask;
+   String url = await (await uploadTask).ref.getDownloadURL();
+
+
+print(url);
+  } catch (e){
+
+    print(e);
+  }
+
+
+  }}
+
 
 class MyFadeRoute extends PageRouteBuilder {
   final Widget page;
