@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mak_past_papers/screens/components/chart_container.dart';
-import 'package:mak_past_papers/widgets/activity_header.dart';
-import 'package:mak_past_papers/widgets/bar_chart.dart';
-
-import 'package:mak_past_papers/widgets/planing_grid.dart';
-import 'package:mak_past_papers/widgets/statistics_grid.dart';
-
+import 'package:mak_past_papers/widgets/College_grid.dart';
 import '../constant.dart';
-import '../widgets/College_grid.dart';
-import '../widgets/planing_header.dart';
+
 import 'components/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
@@ -101,23 +94,6 @@ class MainScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              // const PlaningGrid(),
-              // const SizedBox(
-              //   height: 15,
-              // ),
-              // const Text(
-              //   "Statistics",
-              //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              // ),
-              // const SizedBox(
-              //   height: 15,
-              // ),
-              // const StatisticsGrid(),
-              // const SizedBox(
-              //   height: 15,
-              // ),
-              // const ActivityHeader(),
-              // const ChartContainer(chart: BarChartContent())
             ],
           ),
         ),

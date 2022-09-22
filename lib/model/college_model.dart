@@ -1,19 +1,22 @@
 import 'dart:ui';
 
+import 'package:mak_past_papers/screens/courseunits.dart';
+import 'package:mak_past_papers/data/data.dart';
+
 class college {
   final String collegename;
-  final String lessons;
   final String imageUrl;
-  final double percent;
   final String backImage;
   final Color color;
 
+  final List<String> Courses;
+  Map<String, Object> courseunits = Map();
   college({
     required this.collegename,
-    required this.lessons,
     required this.imageUrl,
-    required this.percent,
     required this.backImage,
     required this.color,
+    required this.Courses,
+    required this.courseunits,
   });
 }

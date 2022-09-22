@@ -37,6 +37,7 @@ dependencies:
   fl_chart: ^0.55.1
   percent_indicator: ^4.2.2
   ternav_icons: ^1.0.0
+  cached_network_image: ^3.2.2
 
 dev_dependencies:
   flutter_test:

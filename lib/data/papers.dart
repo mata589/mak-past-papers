@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mak_past_papers/model/college_model.dart';
 
 class MyCustomUI extends StatefulWidget {
+  final String course;
+  final List<dynamic> units;
+
+  MyCustomUI({required this.course, required this.units});
   @override
   _MyCustomUIState createState() => _MyCustomUIState();
 }
@@ -22,9 +27,9 @@ class _MyCustomUIState extends State<MyCustomUI>
 
     _animation = Tween<double>(begin: 0, end: 1)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
-          ..addListener(() {
-            setState(() {});
-          });
+      ..addListener(() {
+        setState(() {});
+      });
 
     _controller.forward();
   }
@@ -40,113 +45,22 @@ class _MyCustomUIState extends State<MyCustomUI>
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xffF5F5F5),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(120.0), // here the desired height
+          child: SafeArea(
+              child: AppBar(
+                  backgroundColor: Color(0xffF5F5F5),
+                  automaticallyImplyLeading: false,
+                  flexibleSpace: searchBar()))),
       body: Stack(
         children: [
-          ListView(
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              searchBar(),
-              SizedBox(height: _w / 20),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-              groupOfCards(
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo(),
-                  'Example Text',
-                  'Example Text',
-                  'assets/images/file_name.png',
-                  RouteWhereYouGo()),
-            ],
-          ),
-          settingIcon(),
-        ],
-      ),
-    );
-  }
-
-  Widget settingIcon() {
-    double _w = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, _w / 10, _w / 20, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            height: _w / 8.5,
-            width: _w / 8.5,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.1),
-                  blurRadius: 30,
-                  offset: Offset(0, 15),
-                ),
-              ],
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              tooltip: 'Settings',
-              icon: Icon(Icons.settings,
-                  size: _w / 17, color: Colors.black.withOpacity(.6)),
-              onPressed: () {
-                // Navigator.of(context).push(
-                //   MyFadeRoute(
-                //     route: RouteWhereYouGo(),
-                //   ),
-                // );
-              },
-            ),
-          ),
+          ListView.builder(
+              itemCount: widget.units.length,
+              itemBuilder: (context, index) {
+                return card(
+                  widget.course,
+                );
+              }),
         ],
       ),
     );
@@ -186,7 +100,7 @@ class _MyCustomUIState extends State<MyCustomUI>
                     fontSize: _w / 22),
                 prefixIcon:
                     Icon(Icons.search, color: Colors.black.withOpacity(.6)),
-                hintText: 'Search anything.....',
+                hintText: 'Search for courseunit.....',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none),
@@ -211,29 +125,7 @@ class _MyCustomUIState extends State<MyCustomUI>
     );
   }
 
-  Widget groupOfCards(
-      String title1,
-      String subtitle1,
-      String image1,
-      Widget route1,
-      String title2,
-      String subtitle2,
-      String image2,
-      Widget route2) {
-    double _w = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          card(title1, subtitle1, image1, route1),
-          card(title2, subtitle2, image2, route2),
-        ],
-      ),
-    );
-  }
-
-  Widget card(String title, String subtitle, String image, Widget route) {
+  Widget card(String title) {
     double _w = MediaQuery.of(context).size.width;
     return Opacity(
       opacity: _animation.value,
@@ -295,17 +187,6 @@ class _MyCustomUIState extends State<MyCustomUI>
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text(
-                      subtitle,
-                      textScaleFactor: 1,
-                      maxLines: 1,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black.withOpacity(.7),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -340,31 +221,4 @@ class MyFadeRoute extends PageRouteBuilder {
             child: route,
           ),
         );
-}
-
-class RouteWhereYouGo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        elevation: 50,
-        centerTitle: true,
-        shadowColor: Colors.black.withOpacity(.5),
-        title: Text('EXAMPLE  PAGE',
-            style: TextStyle(
-                color: Colors.black.withOpacity(.7),
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1)),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black.withOpacity(.8),
-          ),
-          onPressed: () => Navigator.maybePop(context),
-        ),
-      ),
-    );
-  }
 }
