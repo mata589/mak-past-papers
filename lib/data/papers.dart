@@ -1,15 +1,12 @@
-import 'dart:io';
-import 'dart:math';
-import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:mak_past_papers/data/viewpdf.dart';
-
+import 'package:mak_past_papers/model/college_model.dart';
 
 class MyCustomUI extends StatefulWidget {
+  final String course;
+  final List<dynamic> units;
+
+  MyCustomUI({required this.course, required this.units});
   @override
   _MyCustomUIState createState() => _MyCustomUIState();
 }
@@ -18,17 +15,11 @@ class _MyCustomUIState extends State<MyCustomUI>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late Future<ListResult> futureFiles;
-   
-  
-  
 
-  FilePickerResult? result;
-var storage = FirebaseStorage.instance;
   @override
   void initState() {
     super.initState();
- futureFiles=  FirebaseStorage.instance.ref('COCIS/computer science').listAll();
+
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
@@ -36,9 +27,9 @@ var storage = FirebaseStorage.instance;
 
     _animation = Tween<double>(begin: 0, end: 1)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
-          ..addListener(() {
-            setState(() {});
-          });
+      ..addListener(() {
+        setState(() {});
+      });
 
     _controller.forward();
   }
@@ -53,106 +44,23 @@ var storage = FirebaseStorage.instance;
   Widget build(BuildContext context) {
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
-      //searchBar(),
+      backgroundColor: Color(0xffF5F5F5),
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(120.0), // here the desired height
-          child:SafeArea(child: AppBar(
-             backgroundColor: Color(0xffF5F5F5),
-             automaticallyImplyLeading: false,
-             flexibleSpace:searchBar() ,
-        //   actions: [
-            
-        //   searchBar()
-        
-        // ]
-            // ...
-          ))
-        ),
-      //  AppBar(
-        
-      //    backgroundColor: Color(0xffF5F5F5),
-      //     actions: [
-      //     searchBar()
-        
-      //  ]),
-     
-      body:FutureBuilder<ListResult>(
-        future:futureFiles ,
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-            final files = snapshot.data!.items;
-            return ListView.builder(
-              itemCount: files.length,
-               itemBuilder: (context,index){
-               var file = files[index];
-               var url = files[index].getDownloadURL();
-               return ListTile(
-                title: Text(file.name),
-                trailing: Text('2022'),
-                onTap: () {
-                  Navigator.push(
-                        
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>   
-                                viewpdf(pdfurl: url,
-                                  
-                                    )));
-                },
-               );
-               }
-               
-               );
-          }
-          else if(snapshot.hasError){
-                  return const Center(child: Text('error'),);
-                }else{
-                  return const Center(child: CircularProgressIndicator(),);
-                }
-          
-        }
-        
-        ) 
-      
-        );
-  }
-
-  Widget uploadIcon() {
-    double _w = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, _w / 20, _w / 20, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+          child: SafeArea(
+              child: AppBar(
+                  backgroundColor: Color(0xffF5F5F5),
+                  automaticallyImplyLeading: false,
+                  flexibleSpace: searchBar()))),
+      body: Stack(
         children: [
-          Container(
-            height: _w / 8.5,
-            width: _w / 8.5,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.1),
-                  blurRadius: 30,
-                  offset: Offset(0, 15),
-                ),
-              ],
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              tooltip: 'upload past paper',
-              icon: Icon(Icons.add,
-                  size: _w / 17, color: Colors.black.withOpacity(.6)),
-              onPressed: () {
-                uploadpaper();
-
-
-                
-              },
-            ),
-          ),
+          ListView.builder(
+              itemCount: widget.units.length,
+              itemBuilder: (context, index) {
+                return card(
+                  widget.course,
+                );
+              }),
         ],
       ),
     );
@@ -161,7 +69,7 @@ var storage = FirebaseStorage.instance;
   Widget searchBar() {
     double _w = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.fromLTRB(_w / 20, _w / 25, _w / 20, _w / 20),
+      padding: EdgeInsets.fromLTRB(_w / 20, _w / 25, _w / 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -192,7 +100,7 @@ var storage = FirebaseStorage.instance;
                     fontSize: _w / 22),
                 prefixIcon:
                     Icon(Icons.search, color: Colors.black.withOpacity(.6)),
-                hintText: 'Search anypaper.....',
+                hintText: 'Search for courseunit.....',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none),
@@ -204,8 +112,8 @@ var storage = FirebaseStorage.instance;
           Container(
             width: _w / 1.15,
             child: Text(
-              'COMPUTER SCIENCE PAST PAPERS',
-              textScaleFactor: 1.1,
+              'Example Text',
+              textScaleFactor: 1.4,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.black.withOpacity(.7),
@@ -217,29 +125,7 @@ var storage = FirebaseStorage.instance;
     );
   }
 
-  Widget groupOfCards(
-      String title1,
-      String subtitle1,
-      String image1,
-      Widget route1,
-      String title2,
-      String subtitle2,
-      String image2,
-      Widget route2) {
-    double _w = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          card(title1, subtitle1, image1, route1),
-          card(title2, subtitle2, image2, route2),
-        ],
-      ),
-    );
-  }
-
-  Widget card(String title, String subtitle, String image, Widget route) {
+  Widget card(String title) {
     double _w = MediaQuery.of(context).size.width;
     return Opacity(
       opacity: _animation.value,
@@ -277,7 +163,11 @@ var storage = FirebaseStorage.instance;
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-             
+              // Image.asset(
+              //   image,
+              //   fit: BoxFit.cover,
+              //   width: _w / 2.36,
+              //   height: _w / 2.6),
               Container(
                 height: _w / 6,
                 width: _w / 2.36,
@@ -297,17 +187,6 @@ var storage = FirebaseStorage.instance;
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text(
-                      subtitle,
-                      textScaleFactor: 1,
-                      maxLines: 1,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black.withOpacity(.7),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -317,35 +196,7 @@ var storage = FirebaseStorage.instance;
       ),
     );
   }
-  
-  Future<void> uploadpaper() async {
-
- result = (await FilePicker.platform.pickFiles(withReadStream: true, allowMultiple: true, type: FileType.any));
-String fileName = result!.files.single.name;
-String? pathh = result!.files.single.path;
-savePdf(pathh!, fileName);
-
 }
-
-  Future<void> savePdf(String filepath, String fileName) async {
-    File file = File(filepath);
-    try{
-//final reference = FirebaseStorage.instance.ref('COCIS/computer science/$fileName');
-//final uploadTask = reference.putFile(file);
-//String url =  await (await uploadTask).ref.getDownloadURL();
-UploadTask uploadTask = (await storage.ref('COCIS/computer science/$fileName').putFile(file)) as UploadTask;
-   String url = await (await uploadTask).ref.getDownloadURL();
-
-
-print(url);
-  } catch (e){
-
-    print(e);
-  }
-
-
-  }}
-
 
 class MyFadeRoute extends PageRouteBuilder {
   final Widget page;
@@ -370,31 +221,4 @@ class MyFadeRoute extends PageRouteBuilder {
             child: route,
           ),
         );
-}
-
-class RouteWhereYouGo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        elevation: 50,
-        centerTitle: true,
-        shadowColor: Colors.black.withOpacity(.5),
-        title: Text('EXAMPLE  PAGE',
-            style: TextStyle(
-                color: Colors.black.withOpacity(.7),
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1)),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black.withOpacity(.8),
-          ),
-          onPressed: () => Navigator.maybePop(context),
-        ),
-      ),
-    );
-  }
 }

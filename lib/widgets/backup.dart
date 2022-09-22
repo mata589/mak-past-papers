@@ -28,7 +28,7 @@ class _courseunitsState extends State<courseunits>
   @override
   void initState() {
     super.initState();
-    print('<<<<<' + widget.courses.toString() + '>>>>');
+
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
@@ -70,11 +70,7 @@ class _courseunitsState extends State<courseunits>
           ListView.builder(
               itemCount: widget.courses.length,
               itemBuilder: (context, index) {
-                return
-                    // ListTile(
-                    //   leading: Text(widget.courses[index]),
-                    // );
-                    myCard(widget.courses[index]);
+                return myCard(widget.courses[index]);
               }),
 
           // top me rahna
@@ -87,20 +83,19 @@ class _courseunitsState extends State<courseunits>
     );
   }
 
-//method that returns courses units for each paga
-  List mapcourse(String course, Map coursemap) {
-    List listunits = [];
-    if (coursemap.keys == course)
-      coursemap.forEach((course, value) {
-        listunits.add(value);
-      });
-    print(listunits);
+  List<String> mapcourse(String course, Map coursemap) {
+    var listunits;
+
+    if (course == coursemap.keys) {
+      listunits = coursemap.values.toList();
+    }
+
     return listunits;
   }
 
   Widget myCard(String name) {
     double _w = MediaQuery.of(context).size.width;
-    List list = mapcourse(name, widget.coursemap);
+    List<String>? list = mapcourse(name, widget.coursemap);
     return Opacity(
       opacity: _animation.value,
       child: Transform.translate(

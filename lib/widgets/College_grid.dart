@@ -15,6 +15,7 @@ class CollegeGrid extends StatelessWidget {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 16 / 7, crossAxisCount: 1, mainAxisSpacing: 20),
         itemBuilder: (context, index) {
+          var college = College[index];
           return Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -32,7 +33,7 @@ class CollegeGrid extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          College[index].collegename,
+                          college.collegename,
                           style: const TextStyle(
                               color: Colors.white, fontSize: 20.0),
                         ),
@@ -50,14 +51,18 @@ class CollegeGrid extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => courseunits(
-                          collegename: College[index].collegename,
-                        )));
+              onTap: College[index].Courses.length == 0
+                  ? () {}
+                  : () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => courseunits(
+                                collegename: college.collegename,
+                                courses: college.Courses,
+                                coursemap: college.courseunits,
+                              )));
 
-                print('<<<<<tapped>>>>');
-              },
+                      print('<<<<<' + college.courseunits.toString() + '>>>>');
+                    },
             ),
           );
         });

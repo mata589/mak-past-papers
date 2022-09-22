@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mak_past_papers/widgets/College_grid.dart';
 import '../constant.dart';
-import '../widgets/College_grid.dart';
 
 import 'components/side_menu.dart';
 
@@ -90,11 +90,10 @@ class MainScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              
+              // const PlaningHeader(),
               const SizedBox(
                 height: 15,
               ),
-              
             ],
           ),
         ),
