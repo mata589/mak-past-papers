@@ -1,4 +1,4 @@
-import 'package:mak_past_papers/screens/courseunits.dart';
+import 'package:mak_past_papers/screens/courses.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:mak_past_papers/data/data.dart';

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mak_past_papers/model/college_model.dart';
 
-class MyCustomUI extends StatefulWidget {
-  final String course;
-  final List<dynamic> units;
+class paper extends StatefulWidget {
+  final String courseunitname;
+  
 
-  MyCustomUI({required this.course, required this.units});
+  paper({required this.courseunitname,});
   @override
-  _MyCustomUIState createState() => _MyCustomUIState();
+  _paperState createState() => _paperState();
 }
 
-class _MyCustomUIState extends State<MyCustomUI>
+class _paperState extends State<paper>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -53,15 +53,7 @@ class _MyCustomUIState extends State<MyCustomUI>
                   automaticallyImplyLeading: false,
                   flexibleSpace: searchBar()))),
       body: Stack(
-        children: [
-          ListView.builder(
-              itemCount: widget.units.length,
-              itemBuilder: (context, index) {
-                return card(
-                  widget.course,
-                );
-              }),
-        ],
+        
       ),
     );
   }
@@ -100,7 +92,7 @@ class _MyCustomUIState extends State<MyCustomUI>
                     fontSize: _w / 22),
                 prefixIcon:
                     Icon(Icons.search, color: Colors.black.withOpacity(.6)),
-                hintText: 'Search for courseunit.....',
+                hintText: 'Search for paper.....',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none),
@@ -112,7 +104,7 @@ class _MyCustomUIState extends State<MyCustomUI>
           Container(
             width: _w / 1.15,
             child: Text(
-              'Example Text',
+              widget.courseunitname,
               textScaleFactor: 1.4,
               style: TextStyle(
                 fontWeight: FontWeight.w600,

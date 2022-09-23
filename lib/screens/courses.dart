@@ -24,11 +24,11 @@ class _courseunitsState extends State<courseunits>
   late AnimationController _controller;
   late Animation<double> _animation;
   late Animation<double> _animation2;
-
+List listunits = [];
   @override
   void initState() {
     super.initState();
-
+    // print('<<<<<---' + widget.coursemap.toString() + '---->>>>');
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
@@ -70,45 +70,25 @@ class _courseunitsState extends State<courseunits>
           ListView.builder(
               itemCount: widget.courses.length,
               itemBuilder: (context, index) {
-                return myCard(widget.courses[index]);
-              }),
-
-          // top me rahna
-          CustomPaint(
-            painter: MyPainter(),
-            child: Container(height: 0),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<String> mapcourse(String course, Map coursemap) {
-    var listunits;
-
-    if (course == coursemap.keys) {
-      listunits = coursemap.values.toList();
-    }
-
-    return listunits;
-  }
-
-  Widget myCard(String name) {
-    double _w = MediaQuery.of(context).size.width;
-    List<String>? list = mapcourse(name, widget.coursemap);
-    return Opacity(
+                return
+                    // ListTile(
+                    //   leading: Text(widget.courses[index]),
+                    // );
+                    //myCard(widget.courses);
+                    Opacity(
       opacity: _animation.value,
       child: Transform.translate(
         offset: Offset(0, _animation2.value),
         child: InkWell(
           enableFeedback: true,
           onTap: () {
+            List list = mapcourse(widget.courses[index], widget.coursemap);
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => course_units(
-                    course: name,
-                    units: list,
+                    course: widget.courses[index],
+                    units: listunits,
                   ),
                 ));
           },
@@ -140,7 +120,7 @@ class _courseunitsState extends State<courseunits>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        name,
+                        widget.courses[index],
                         textScaleFactor: 1.0,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -157,7 +137,33 @@ class _courseunitsState extends State<courseunits>
         ),
       ),
     );
+              }),
+
+          // top me rahna
+          CustomPaint(
+            painter: MyPainter(),
+            child: Container(height: 0),
+          ),
+        ],
+      ),
+    );
   }
+
+//method that returns courses units for each paga
+  List mapcourse(course, Map coursemap) {
+    
+   
+      listunits = coursemap[course];
+    print('========'+
+    listunits.toString()
+     //coursemap[course].toString()
+    //course
+    +'======');
+    
+    return listunits;
+  }
+
+  
 }
 
 class MyPainter extends CustomPainter {
@@ -198,26 +204,4 @@ class MyPainter extends CustomPainter {
   }
 }
 
-class RouteWhereYouGo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        elevation: 50,
-        centerTitle: true,
-        shadowColor: Colors.black.withOpacity(.5),
-        title: Text('EXAMPLE  PAGE',
-            style: TextStyle(
-                color: Colors.black.withOpacity(.7),
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1)),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black.withOpacity(.8)),
-          onPressed: () => Navigator.maybePop(context),
-        ),
-      ),
-    );
-  }
-}
+

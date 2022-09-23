@@ -4,7 +4,7 @@
 //import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 //import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 //import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
-import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
+//import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 class viewpdf extends StatefulWidget {
    viewpdf({Key? key,required pdfurl}) : super(key: key);
 late String pdfurl;
@@ -38,7 +38,9 @@ loadDocument() async {
       body: Center(
           child: _isLoading
               ? Center(child: CircularProgressIndicator())
-              : const PdfView(path: 'https://www.kindacode.com/wp-content/uploads/2021/07/test.pdf'),),
+             // : const PdfView(path: 'https://www.kindacode.com/wp-content/uploads/2021/07/test.pdf'),
+             :Center(child: CircularProgressIndicator(),)
+             ),
     );
     
   }

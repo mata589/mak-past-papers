@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:mak_past_papers/screens/courseunits.dart';
+import 'package:mak_past_papers/screens/courses.dart';
 import 'package:mak_past_papers/data/data.dart';
 
 class college {
@@ -10,6 +10,7 @@ class college {
   final Color color;
 
   final List<String> Courses;
+  //final List<String> courseunits;
   Map<String, Object> courseunits = Map();
   college({
     required this.collegename,
@@ -18,5 +19,7 @@ class college {
     required this.color,
     required this.Courses,
     required this.courseunits,
+    
   });
+  
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mak_past_papers/widgets/College_grid.dart';
+import 'package:mak_past_papers/components/side_menu.dart';
+import 'package:mak_past_papers/screens/College_grid.dart';
 import '../constant.dart';
-
-import 'components/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
