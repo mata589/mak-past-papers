@@ -241,13 +241,24 @@ final List<college> College = [
     imageUrl: "images/pic/img2.png",
     backImage: "images/box/box2.png",
     color: kOrange,
-    Courses: ['BIST', 'BSSE', 'BCSC'],
+    Courses: ['Information Systems and Technology(BIST)', 'SOFTWARE ENGINEERING(BSSE)', 'Computer Science(BCSC)','LIBRARY AND INFORMATION SCIENCE (BLIS)','RECORDS AND ARCHIVES MANAGEMENT (BRAM)'],
     courseunits: {
-      'BIST': ['OPERATING SYSTEMS', 'SAD', 'DIM'],
-      'BSSE': ['NAD', 'PAD', 'DAD', 'RAD'],
-      'BCSC': ['AUTOMATA', '']
+      'Information Systems and Technology(BIST)': ['OPERATING SYSTEMS', 'SAD', 'DIM'],
+      'SOFTWARE ENGINEERING(BSSE)': ['NAD', 'PAD', 'DAD', 'RAD'],
+      'Computer Science(BCSC)': ['Structured and Object-Oriented Programming','Mathematics for Computer Science','Digital Innovation & Computational Thinking',
+      'C1100 COMPUTER LITERACY (BCSC I GROUP ONLY)','CSC 1104 COMPUTER ORGANISATION AND ARCHITECTURE',
+      'CSC1202 Software Developmenty Project'
+,'CSC1201 Probability and Statistics','MTH1203 Calculus I','IST1203: Data and Information Management I[BCSC]','IST1204: Systems Analysis and Design[BCSC 1 GROUP]'
+,'CSC 1214 Object-Oriented Programming [BSCS 1]','MTH 1203: Calculus 1 [old]','BSE2105 Formal Methods','BSE2106 Computer Networks[BCSC Group]',
+'CSC 2100: Data Structures and Algorithms [BCSC Group]','CSC 2113 Software Engineering','CSC 2114: Artificial Intelligence [BCSC 2 GROUP]','MTH3105: Discrete Mathematics [BSCS 2]',
+'BIT2207 Research Methodology[BCSC 2]','BSE2206: Data Communications[BCSC GROUP]','CSC 1209: Logic Programming','CSC 2200: Operating Systems',
+'CSC 2209: Systems Programming [BCSC]','CSC 2210: Automata ,Complexity and Compatibility','BIS3100 Modeling and Simulation [BCSC]',
+'COE 2105: Entrepreneurship','CSC 3105: Computer Graphics','CSC 3112 Principles of Programming Languages','CSC 3115 Advanced Programming',
+'CSC 3118 Computer Science Project I & 11','MTH 3107: Linear Programming','CSC3119 User Interface Design[CSC ONLY]','BIS3205: Data Warehousing and Business Intelligencep[BCSC]',
+'CSC 3205: Compiler Design','CSC 3207 - Computer Security','CSC 3217 Emerging Trends in Computer Science',
+]
     },
-  ),
+  ), 
   college(
     collegename: "CEDAT",
     imageUrl: "images/pic/img3.png",

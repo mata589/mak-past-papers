@@ -6,8 +6,9 @@ import 'package:mak_past_papers/screens/paper.dart';
 
 class course_units extends StatefulWidget {
   final String course;
+  final String college;
   final List<dynamic> units;
-   course_units({required this.course, required this.units});
+   course_units({required this.course,required this.college, required this.units});
   @override
   _course_unitsState createState() => _course_unitsState();
 }
@@ -56,7 +57,7 @@ printing();
                 MaterialPageRoute(
                   builder: (context) => paper(
                     
-                   courseunitname: widget.units[index],
+                   courseunitname: widget.units[index], collegename: widget.college, coursename:widget.course,
                   ),
                 ));
 

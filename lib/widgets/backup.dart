@@ -108,7 +108,7 @@ class _courseunitsState extends State<courseunits>
                 MaterialPageRoute(
                   builder: (context) => course_units(
                     course: name,
-                    units: list,
+                    units: list, college: widget.collegename,
                   ),
                 ));
           },

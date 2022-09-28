@@ -88,7 +88,7 @@ List listunits = [];
                 MaterialPageRoute(
                   builder: (context) => course_units(
                     course: widget.courses[index],
-                    units: listunits,
+                    units: listunits, college: widget.collegename,
                   ),
                 ));
           },

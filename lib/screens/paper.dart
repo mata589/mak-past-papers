@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mak_past_papers/model/college_model.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 class paper extends StatefulWidget {
   final String courseunitname;
-  
-
-  paper({required this.courseunitname,});
+  final String coursename;
+final String collegename;
+  paper({required this.courseunitname,required this.coursename,required this.collegename});
   @override
   _paperState createState() => _paperState();
 }
@@ -15,11 +15,13 @@ class _paperState extends State<paper>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-
+late Future<ListResult> futureFiles;
+//String paperpath = 'COCIS/Computer Science(BCSC)/'+widget.courseunitname;
+var file;
   @override
   void initState() {
     super.initState();
-
+futureFiles=  FirebaseStorage.instance.ref(widget.collegename+'/'+widget.coursename+'/'+widget.courseunitname).listAll();
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
@@ -52,10 +54,32 @@ class _paperState extends State<paper>
                   backgroundColor: Color(0xffF5F5F5),
                   automaticallyImplyLeading: false,
                   flexibleSpace: searchBar()))),
-      body: Stack(
+      body: FutureBuilder<ListResult>(
+        future: futureFiles,
+        builder:(context, snapshot) {
+          if (snapshot.hasData){
+                  final files = snapshot.data!.items;
+                 
+                 return ListView.builder(
+                  itemCount: files.length,
+                  itemBuilder: (context,index){
+                    file = files[index];
+                    return ListTile(
+                      title: Text(file.name),
+                      
+                    );
+          });}
+else if(snapshot.hasError){
+                  return const Center(child: Text('error'),);
+                }else{
+                  return const Center(child: CircularProgressIndicator(),);
+                }
+
+        })
+         ,);
         
-      ),
-    );
+      
+    
   }
 
   Widget searchBar() {

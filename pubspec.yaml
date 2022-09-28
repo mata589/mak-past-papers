@@ -39,6 +39,7 @@ dependencies:
   ternav_icons: ^1.0.0
   firebase_core: ^1.22.0
   flutter_staggered_animations: ^1.1.1
+  firebase_storage: ^10.3.9
   
 
 dev_dependencies:
