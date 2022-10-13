@@ -40,6 +40,17 @@ dependencies:
   firebase_core: ^1.22.0
   flutter_staggered_animations: ^1.1.1
   firebase_storage: ^10.3.9
+  file_picker: ^5.2.0+1
+  flutter_pdfview: ^1.2.5
+  http: ^0.13.5
+  syncfusion_flutter_pdfviewer: ^19.1.69-beta
+  path_provider: ^2.0.11
+  path: ^1.8.1
+  provider: ^6.0.4
+  
+  
+  
+
   
 
 dev_dependencies:

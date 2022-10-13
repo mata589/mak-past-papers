@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mak_past_papers/model/pdf_provider.dart';
 import 'package:mak_past_papers/screens/main_screen.dart';
+import 'package:provider/provider.dart';
 
  main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,11 +17,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return
+     MultiProvider(
+      providers:[
+        ChangeNotifierProvider(create:(context)=>pdfprovider(),),
+        
+      ],
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(fontFamily: "Poppins"),
       home: const MainScreen(),
-    );
+    )
+     );
   }
 }

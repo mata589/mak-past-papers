@@ -8,30 +8,43 @@ class course_units extends StatefulWidget {
   final String course;
   final String college;
   final List<dynamic> units;
-   course_units({required this.course,required this.college, required this.units});
+  course_units(
+      {required this.course, required this.college, required this.units});
   @override
   _course_unitsState createState() => _course_unitsState();
 }
 
 class _course_unitsState extends State<course_units> {
   @override
-  initState(){
-printing();
-    
+  initState() {
+    printing();
   }
-  printing(){
-//print('----------------'+widget.units[0].toString()+'-----------------');
 
+  printing() {
+//print('----------------'+widget.units[0].toString()+'-----------------');
   }
 //int number_of_uints = units.;
 //String courseUnitName = widget.course;
+String name = '';
   @override
   Widget build(BuildContext c) {
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Course Units"),
-        centerTitle: true,
+        leading: Text("Course Units"), 
+        title:Card(
+            child: SizedBox(width: 200,height: 30,child: 
+             TextField(
+          decoration: InputDecoration(
+              prefixIcon: Icon(Icons.search), hintText: "search....."),
+              onChanged:(value) {
+                setState(() {
+                  name = value;
+                });
+              },
+        ))),
+        // Text("Course Units"),
+        //centerTitle: true,
         brightness: Brightness.dark,
       ),
       body: AnimationLimiter(
@@ -41,7 +54,8 @@ printing();
               BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           itemCount: widget.units.length,
           itemBuilder: (BuildContext context, int index) {
-            return AnimationConfiguration.staggeredList(
+            if(name.isEmpty){
+               return AnimationConfiguration.staggeredList(
               position: index,
               delay: Duration(milliseconds: 100),
               child: SlideAnimation(
@@ -52,37 +66,95 @@ printing();
                   duration: Duration(milliseconds: 2500),
                   child: GestureDetector(
                     onTap: () {
-                       Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => paper(
-                    
-                   courseunitname: widget.units[index], collegename: widget.college, coursename:widget.course,
-                  ),
-                ));
-
-
-
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => paper(
+                              courseunitname: widget.units[index],
+                              collegename: widget.college,
+                              coursename: widget.course,
+                            ),
+                          ));
                     },
-                    child:Container(
-                    child: Center(child:Text(widget.units[index],style: TextStyle(color: Colors.red,fontSize: 16.0,fontWeight: FontWeight.bold))),
-                    margin: EdgeInsets.only(bottom: _w / 20),
-                    height: _w / 4,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 40,
-                          spreadRadius: 10,
-                        ),
-                      ],
+                    child: Container(
+                      child: Center(
+                          child: Text(widget.units[index],
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold))),
+                      margin: EdgeInsets.only(bottom: _w / 20),
+                      height: _w / 4,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 40,
+                            spreadRadius: 10,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),),
+                  ),
                 ),
               ),
             );
+            }
+            if(widget.units[index].toString().contains(name.toLowerCase())
+
+            ){
+               return AnimationConfiguration.staggeredList(
+              position: index,
+              delay: Duration(milliseconds: 100),
+              child: SlideAnimation(
+                duration: Duration(milliseconds: 2500),
+                curve: Curves.fastLinearToSlowEaseIn,
+                child: FadeInAnimation(
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  duration: Duration(milliseconds: 2500),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => paper(
+                              courseunitname: widget.units[index],
+                              collegename: widget.college,
+                              coursename: widget.course,
+                            ),
+                          ));
+                    },
+                    child: Container(
+                      child: Center(
+                          child: Text(widget.units[index],
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold))),
+                      margin: EdgeInsets.only(bottom: _w / 20),
+                      height: _w / 4,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 40,
+                            spreadRadius: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+           
+
+            }
+           return Container();
           },
         ),
       ),
